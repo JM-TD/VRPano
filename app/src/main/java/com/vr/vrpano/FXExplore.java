@@ -67,6 +67,23 @@ public class FXExplore extends Activity implements OnItemClickListener {
 
 	private List<Map<String, Object>> buildListForSimpleAdapter(String path) {
 		File[] files = new File(path).listFiles();
+		if(files == null)
+		{
+			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(0);
+			Map<String, Object> root = new HashMap<String, Object>();
+			root.put("name", "/");
+			root.put("img", R.drawable.file_root);
+			root.put("path", "根目录...");	//"go to root directory"
+			root.put("size", "");
+			list.add(root);
+			Map<String, Object> pmap = new HashMap<String, Object>();
+			pmap.put("name", "..");
+			pmap.put("img", R.drawable.file_paranet);
+			pmap.put("path", "上级目录...");	//"go to paranet Directory"
+			pmap.put("size", "");
+			list.add(pmap);
+			return list;
+		}
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(files.length);
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("name", "/");
@@ -163,7 +180,7 @@ public class FXExplore extends Activity implements OnItemClickListener {
 		} else {
 			path = (String) list.get(position).get("path");
 			File file = new File(path);
-			if (file.isDirectory() && (file.listFiles() != null))
+			if (file.isDirectory())
 				refreshListItems(path);
 			else
 			{
