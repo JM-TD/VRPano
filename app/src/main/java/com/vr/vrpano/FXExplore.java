@@ -57,6 +57,10 @@ public class FXExplore extends Activity implements OnItemClickListener {
 	private void refreshListItems(String path) {
 		setTitle("文件浏览器>"+path);
 		list = buildListForSimpleAdapter(path);
+		if(list == null)
+		{
+			return;
+		}
 		SimpleAdapter notes = new SimpleAdapter(this, list, R.layout.file_row,
 				new String[] { "name", "path" ,"img", "size"}, new int[] { R.id.name,
 						R.id.desc ,R.id.img, R.id.size});
@@ -67,6 +71,10 @@ public class FXExplore extends Activity implements OnItemClickListener {
 
 	private List<Map<String, Object>> buildListForSimpleAdapter(String path) {
 		File[] files = new File(path).listFiles();
+		if(files == null)
+		{
+			return null;
+		}
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(files.length);
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("name", "/");
@@ -84,33 +92,40 @@ public class FXExplore extends Activity implements OnItemClickListener {
 		for (File file : files){
 			Map<String, Object> map = new HashMap<String, Object>();
 			if(file.isDirectory()){
-				boolean bHasMp4 = false;
-				File[] subList = file.listFiles();
-				if (subList != null) {
-					for(File subFile : subList)
-					{
-						if (subFile.isFile()) {
-							String strFileName = subFile.getName();
-							String strExt = strFileName.substring(strFileName.lastIndexOf(".") + 1);
-							if (strExt.equals("mp4")) {
-								bHasMp4 = true;
-								break;
-							}
-						}
-					}
-					
-					if (bHasMp4) {
-						map.put("img", R.drawable.video_dic);
-					}
-					else {
-						map.put("img", R.drawable.directory);
-					}
-					map.put("name", file.getName());
-					map.put("path", file.getPath());
-					//String strFileSize = FormetFileSize(file.length());
-					map.put("size", "");
-					list.add(map);
-				}	
+//				boolean bHasMp4 = false;
+//				File[] subList = file.listFiles();
+//				if (subList != null) {
+//					for(File subFile : subList)
+//					{
+//						if (subFile.isFile()) {
+//							String strFileName = subFile.getName();
+//							String strExt = strFileName.substring(strFileName.lastIndexOf(".") + 1);
+//							if (strExt.equals("mp4")) {
+//								bHasMp4 = true;
+//								break;
+//							}
+//						}
+//					}
+//
+//					if (bHasMp4) {
+//						map.put("img", R.drawable.video_dic);
+//					}
+//					else {
+//						map.put("img", R.drawable.directory);
+//					}
+//					map.put("name", file.getName());
+//					map.put("path", file.getPath());
+//					//String strFileSize = FormetFileSize(file.length());
+//					map.put("size", "");
+//					list.add(map);
+//				}
+
+				map.put("img", R.drawable.directory);
+				map.put("name", file.getName());
+				map.put("path", file.getPath());
+				//String strFileSize = FormetFileSize(file.length());
+				map.put("size", "");
+				list.add(map);
 			}else{
 				String strFileName = file.getName();
 				String strExtName = strFileName.substring(strFileName.lastIndexOf(".") + 1);
