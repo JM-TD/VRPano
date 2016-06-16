@@ -114,15 +114,18 @@ public class FXExplore extends Activity implements OnItemClickListener {
 			}else{
 				String strFileName = file.getName();
 				String strExtName = strFileName.substring(strFileName.lastIndexOf(".") + 1);
-				if (strExtName.equals("mp4"))
+				if (strExtName.equals("mp4")) {
+					map.put("img", R.drawable.video_file_icon);
+				}
+				else
 				{
-					map.put("img", R.drawable.file_doc);
+					map.put("img", R.drawable.file_icon2);
+				}
 					map.put("name", file.getName());
 					map.put("path", file.getPath());
 					String strFileSize = FormetFileSize(file.length());
 					map.put("size", strFileSize);
 					list.add(map);
-				}
 			}
 		}
 		return list;
